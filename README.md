@@ -9,3 +9,8 @@ This repository contains a Qiskit implementation of Kitaev surface codes, a topo
 
 
 While an implementation of the surface code is the primary motivation of this repository, the implementation can be used in more general contexts. This implementation may be used to implement *any* quantum CSS code with a MWPM (minimum-weight-perfect-matching) syndrome decoding procedure -- that is, a quantum CSS code for which syndrome measurements either come in pairs or in isolation.
+
+
+
+## Overview
+
