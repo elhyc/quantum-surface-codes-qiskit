@@ -14,3 +14,10 @@ While an implementation of the surface code is the primary motivation of this re
 
 ## Overview
 
+
+The basic premise of the planar surface code is similar to the idea behind the toric code -- [please see the description here for details](https://github.com/elhyc/Kitaev-Toric-Code). Qubits are placed on the edges of a $k_{0} \times k_{1}$ lattice grid, but unlike the toric code the lattice boundary is not considered to be periodic, so that one works with a planar lattice instead (so that the lattice topologically represents a contractible disc with boundary). Below is a figure of such a planar $5 \times 5$ lattice:
+
+
+<p align="center">
+<img src="./Figures/lattice5x5planar.png" alt="example lattice" width="500"/>
+</p>
