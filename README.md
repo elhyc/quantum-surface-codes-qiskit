@@ -19,5 +19,5 @@ The basic premise of the planar surface code is similar to the idea behind the t
 
 
 <p align="center">
-<img src="./Figures/lattice5x5planar.png" alt="example lattice" width="500"/>
+<img src="./figures/lattice5x5planar.png" alt="example lattice" width="500"/>
 </p>
