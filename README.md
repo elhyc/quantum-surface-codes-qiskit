@@ -38,7 +38,7 @@ Unlike the implementation found [here](https://github.com/elhyc/Kitaev-Toric-Cod
 
 First, a NetworkX lattice grid of an appropriate size is formed: we initiate a NetworkX lattice grid of size $(d + 3) \times (d+1)$ so that the appropriate rough and smooth edges for a $d \times d$ square lattice may be formed (refer to the figure above for reference). Then, the edges of the lattice are ordered, and by traversing through the lattice we may produce parity check matrices $H_{X}, H_{Z}$ for the planar surface code described by the lattice. The stars of each node define the rows for $H_{X}$ and the edges forming a cycle around a given node define the rows for $H_{Z}$. 
 
-Once we have our parity check matrices $(H_{X}, H_{Z})$, we can define corresponding *tanner graphs*: these are bipartite graphs where a "check node" is defined for each row of $H = H_{X}, H_{Z}$ and edges are formed between the check node and nodes corresponding to the edges of the lattice according to the non-zero entries of the given row in $H$. Below are examples for the $X$-type and $Z$-type tanner graphs for the $5 \times 5$ lattice: 
+Once we have our parity check matrices $(H_{X}, H_{Z})$, we can define corresponding *tanner graphs*: these are bipartite graphs where a "check node" is defined for each row of $H = H_{X}, H_{Z}$ and edges are formed between the check node and nodes corresponding to the edges of the lattice according to the non-zero entries of the given row in $H$. Below are examples for the $X$-type and $Z$-type tanner graphs respectively for the $5 \times 5$ lattice: 
 
 <!-- <p align="center">
 <img src="./figures/X_graph (5x5).png"  width="500"/>
@@ -46,9 +46,15 @@ Once we have our parity check matrices $(H_{X}, H_{Z})$, we can define correspon
 </p> -->
 
 <p align="center">
-  <img src="./figures/X_graph (5x5).png" width="300" />
-  <img src="./figures/Z_graph (5x5).png" width="300" />
+  <img src="./figures/X_graph (5x5).png" width="350" />
+  <img src="./figures/Z_graph (5x5).png" width="350" />
 </p>
+
+The check nodes are labeled as strings 'r' + str(row_index) where row_index corresponds to the row index associated to the given check node. The integer valued labels correspond to the edges of the lattice.
+
+
+
+
 <!-- X-type                     |  Z-type
 :-------------------------:|:-------------------------:
 ![](/figures/X_graph (5x5).png)|  ![](/figures/Z_graph (5x5).png)
