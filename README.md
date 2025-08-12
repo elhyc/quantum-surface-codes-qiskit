@@ -27,6 +27,12 @@ The planar lattices have two kinds of boundary edges: edges that make up the "sm
 $(5,11), (11,17), (17,23), (23,29), (29,35)$. The edges that make up the "rough boundary" are the edges $(0,-6), (1,-5), (2,-4), (3,-3), (4,-2), (5,-1)$ ; $(35,41), (34,40), (33,39), (32,38), (31,37), (30,36)$. 
 
 The qubits on the "smooth boundary edges" belong to a single plaquette (and two stars), while the qubits on the "rough boundary edges" belong to a single star (and two plaquettes).
+In the case of the toric code, each edge of the lattice belongs to two plaquettes and two stars -- therefore, a $X$ or $Z$ flip on a qubit (on any edge) will always be detected by syndrome measurements for pairs of plaquette or star operators. In the planar case with boundary, a $X$ or $Z$ flip on a qubit belonging to a boundary edge will only be detected by a syndrome measurement for a single plaquette or star in isolation.
+
+
+## Implementation details
+
+
 
 
 
