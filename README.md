@@ -53,7 +53,7 @@ Once we have our parity check matrices $(H_{X}, H_{Z})$, we can define correspon
 The check nodes are labeled as strings 'r' + str(row_index) where row_index corresponds to the row index associated to the given check node. The integer valued labels correspond to the edges of the lattice. One may view a boundary node of a respective tanner graph to be a  "degenerate" star or plaquette, consisting of a single edge. This perspective is useful for the minimum-weight matching procedure required for decoding the surface code.
 
 
-Now, we "populate" these lattices with qubits: data qubits are indexed by the integer labeled nodes on a tanner graph (which correspond to edges on the primary $k_{0} \times k_{1}$ lattice with boundary), and ancilla qubits are placed on the check nodes with the 'r' + str(row_index) labels. 
+Now, we populate these lattices with qubits: data qubits are indexed by the integer labeled nodes on a tanner graph (which correspond to edges on the primary $k_{0} \times k_{1}$ lattice with boundary), and ancilla qubits are placed on the check nodes with the 'r' + str(row_index) labels. Of course, the ancilla qubits represent the syndrome qubits associated to a planar surface code, and their state will be determined by syndrome measurement operations applied to the associated star or plaquette (i.e. the set of neighbors on corresponding tanner graph). 
 
 
 
