@@ -32,6 +32,8 @@ In the case of the toric code, each edge of the lattice belongs to two plaquette
 
 ## Implementation details
 
+Apart from Qiskit, the [main code](./src/KitaevSurfaceCode.py) uses [NetworkX](https://networkx.org/) to implement the necessary data structures required for surface codes. 
+Unlike the implementation found [here](https://github.com/elhyc/Kitaev-Toric-Code), this implementation uses more general algorithms available for CSS codes to: 1) produce logical states, 2) construct implement plaquette and star lattices (and their associated operators) 
 
 
 
