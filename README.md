@@ -45,10 +45,13 @@ Once we have our parity check matrices $(H_{X}, H_{Z})$, we can define correspon
 <img src="./figures/Z_graph (5x5).png" width="500"/>
 </p> -->
 
-X-type                     |  Z-type
+<p float="left">
+  <img src="./figures/X_graph (5x5).png" width="100" />
+  <img src="./figures/Z_graph (5x5).png" width="100" />
+</p>
+<!-- X-type                     |  Z-type
 :-------------------------:|:-------------------------:
 ![](/figures/X_graph (5x5).png)|  ![](/figures/Z_graph (5x5).png)
-<!-- 
 using the module [CSSCodesGottesman.py](./src/CSSCodesGottesman.py),  -->
 
 
