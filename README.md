@@ -40,12 +40,14 @@ First, a NetworkX lattice grid of an appropriate size is formed: we initiate a N
 
 Once we have our parity check matrices $(H_{X}, H_{Z})$, we can define corresponding *tanner graphs*: these are bipartite graphs where a "check node" is defined for each row of $H = H_{X}, H_{Z}$ and edges are formed between the check node and nodes corresponding to the edges of the lattice according to the non-zero entries of the given row in $H$. Below are examples for the $X$-type and $Z$-type tanner graphs for the $5 \times 5$ lattice: 
 
-<p align="center">
+<!-- <p align="center">
 <img src="./figures/X_graph (5x5).png"  width="500"/>
 <img src="./figures/Z_graph (5x5).png" width="500"/>
-</p>
+</p> -->
 
-
+X-type                     |  Z-type
+:-------------------------:|:-------------------------:
+![](./figures/X_graph (5x5).png)|  ![](./figures/Z_graph (5x5).png)
 <!-- 
 using the module [CSSCodesGottesman.py](./src/CSSCodesGottesman.py),  -->
 
