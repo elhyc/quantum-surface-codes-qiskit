@@ -56,7 +56,7 @@ The check nodes are labeled as strings 'r' + str(row_index) where row_index corr
 These lattices are populated with qubits: data qubits are indexed by the integer labeled nodes on a Tanner graph (which correspond to edges on the primary $k_{0} \times k_{1}$ lattice with boundary), and ancilla qubits are placed on the check nodes with the 'r' + str(row_index) labels. Of course, the ancilla qubits represent the syndrome qubits associated to a planar surface code, and their state will be determined by syndrome measurement operations applied to the associated star or plaquette (i.e. the set of neighbors on corresponding Tanner graph). 
 
 
-This [Jupyter notebook] (KitaevSurfaceCode.ipynb) demonstrates some of the functionality and code provided in this repository.
+This [Jupyter notebook](KitaevSurfaceCode.ipynb) demonstrates some of the functionality and code provided in this repository.
 
 
 ## Code threshold
