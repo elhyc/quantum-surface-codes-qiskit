@@ -11,6 +11,7 @@ import numpy as np
 from latticecode_with_nx import *
 from CSSCodesGottesman import *
 from networkx.algorithms import bipartite
+import math 
 
         
 def syndrome_measurement(LatticeCircuit, tanner_graph, checks, label):
@@ -34,6 +35,20 @@ def syndrome_measurement(LatticeCircuit, tanner_graph, checks, label):
         LatticeCircuit.h(syndrome)
         
         LatticeCircuit.measure(syndrome,meas)
+        
+        
+            
+        # ### reset syndrome
+        # LatticeCircuit.h(syndrome)
+        
+        
+        # for idx in tanner_graph.neighbors(check_node):
+        #     options[label](syndrome, LatticeCircuit.qubits[idx])
+            
+        # LatticeCircuit.h(syndrome)
+        
+        
+        
     
 
 def ApplyPauliError(quantum_circuit, qubits, p_error, print_option=False):
@@ -65,7 +80,6 @@ def SurfaceCode_single_round( x_0, k_0,k_1, p_error, report_error=False):
     
     return Surface_code 
     
-
 
 class SurfaceCode:
     
@@ -115,7 +129,8 @@ class SurfaceCode:
         
         self.generator_matrix = self.get_generator_matrix()
         self.X_graph = generate_tanner_graph( self.generator_matrix[0])
-        self.Z_graph = generate_tanner_graph( self.generator_matrix[1])                      
+        self.Z_graph = generate_tanner_graph( self.generator_matrix[1])
+        self.tanner_graphs = {'X': self.X_graph, 'Z': self.Z_graph}                      
         initializer = initialize_groundstate(self.generator_matrix)        
         self.LatticeCircuit.compose( initializer, inplace=True )
         
@@ -145,37 +160,80 @@ class SurfaceCode:
             XBlock = XBlock.col_join(Xrow)
         return (XBlock,ZBlock)
             
-    def marked_tanner_graph(self, tanner_graph, marked_nodes, boundary=[]):
+    def marked_tanner_graph(self, label, marked_nodes):
+        
+        tanner_graph = self.tanner_graphs[label]
         marked_graph = nx.Graph()
-    
         marked_graph.add_nodes_from(marked_nodes)
         edge_list = list(itertools.combinations(marked_nodes, 2))
-        marked_graph.add_edges_from( edge_list )
+        # marked_graph.add_edges_from( edge_list )
         
-
+        pair_graph = marked_graph.copy()
+        
         for edge in edge_list:
-            path = [x for x in nx.shortest_path(tanner_graph, edge[0], edge[1]) if type(x) == int ]
-            marked_graph.edges[edge[0],edge[1]]['weight'] = len(path)      
+            path = nx.shortest_path(tanner_graph, edge[0], edge[1])
+            marked_graph.add_edges_from( list(itertools.pairwise(path) ) )
+            pair_graph.add_edge(edge[0],edge[1], weight = len(path) )
+                
+        # for edge in edge_list:
+        #     path = [x for x in nx.shortest_path(tanner_graph, edge[0], edge[1]) if type(x) == int ]
+        #     marked_graph.edges[edge[0],edge[1]]['weight'] = len(path)      
         
-       
-        if boundary:
-            active_boundary = []
-            available_boundary = list(set(boundary))
-            for node in marked_nodes:
-                if available_boundary:
-                    dist, bdry_path = nx.multi_source_dijkstra(tanner_graph, available_boundary, node, weight='weight')
-                    marked_graph.add_edge( bdry_path[0], node , weight = dist)
-                    active_boundary.append(bdry_path[0])
-                    available_boundary = list(  set(available_boundary) - set(active_boundary) )
+        
+        
+        # if boundary:
+            
+        boundary_nodes = []
+            # active_boundary = []
+            # available_boundary = list(set(boundary))            
+        for node in marked_nodes:
+            nearest_bdry = self.nearest_boundary(node, label)
+            path = nx.shortest_path(tanner_graph, node, nearest_bdry)
+            marked_graph.add_edges_from( list(itertools.pairwise(path)))
+                
+                # node_path = [x for x in path if type(x) == int ]
+                # marked_graph.add_nodes_from(path)
+                # marked_graph.add_edge( nearest_bdry, node, weight =   len(node_path) )
+            boundary_node = 'b-' + node 
+            boundary_nodes.append(boundary_node)
+            marked_graph.add_edge( nearest_bdry, boundary_node, weight = 0 )
+            pair_graph.add_edge( node, boundary_node, weight = len(path) )
+
+                
+            
+            
+            
+            # pair_graph.add_edge( nearest_bdry, boundary_node, weight = 0 )
                 
                 
-            boundary_edges_internal = list(itertools.combinations(active_boundary, 2))
+            #     active_boundary.append( nearest_bdry )
+            #     path = nx.shortest_path(tanner_graph, node, nearest_bdry)
+            #     # node_path = [x for x in path if type(x) == int]
+            #     marked_graph.add_edge( nearest_bdry, node, weight = len(path) )
+
+            #     available_boundary = list(  set(available_boundary) - set(active_boundary) )
+                
+            # active_boundary = []
+            # available_boundary = list(set(boundary))
+            # for node in marked_nodes:
+            #     if available_boundary:
+            #         dist, bdry_path = nx.multi_source_dijkstra(tanner_graph, available_boundary, node, weight='weight')
+            #         marked_graph.add_edge( bdry_path[0], node , weight = dist)
+            #         active_boundary.append(bdry_path[0])
+            #         available_boundary = list(  set(available_boundary) - set(active_boundary) )
+                
+            
+            boundary_edges_internal = list(itertools.combinations(boundary_nodes, 2))
             for edge in boundary_edges_internal:
-                marked_graph.add_edge(edge[0], edge[1], weight = 0) 
+                pair_graph.add_edge(edge[0], edge[1], weight = 0)
+            
+            # subgraph_nodes = marked_nodes.copy() 
+            # subgraph_nodes.extend(boundary_nodes)
+            
                 
             
         
-        return marked_graph
+        return marked_graph, pair_graph
             
         
    
@@ -214,14 +272,14 @@ class SurfaceCode:
     # star_graph = lattice_grid.star_graph()
     # marked_star_graph = lattice_grid.star_graph( marked_stars=positions )     
            
-        marked_star_graph = self.marked_tanner_graph(self.X_graph, positions, self.X_boundary_nodes)
+        marked_star_graph,star_subgraph  = self.marked_tanner_graph('X', positions)
     
     ## address syndrome 
-        star_matchings = nx.min_weight_matching(marked_star_graph,  weight='weight')
+        star_matchings = nx.min_weight_matching(star_subgraph,  weight='weight')
         
         for match in star_matchings:
-            if not ( (  match[0] in self.X_boundary_nodes) and (match[1] in self.X_boundary_nodes ) ):
-                path = [ node for node in nx.shortest_path( self.X_graph, match[0], match[1] ) if type(node) == int  ]
+            if not ( (  match[0][0] == 'b' ) and (match[1][0] == 'b' ) ):
+                path = [ node for node in nx.shortest_path(marked_star_graph, match[0], match[1] ) if type(node) == int  ]
                 self.LatticeCircuit.z(path)
 
 
@@ -250,14 +308,14 @@ class SurfaceCode:
                 positions.append('r' + str(i) )
             
     
-        marked_plaquette_graph = self.marked_tanner_graph(self.Z_graph, positions, self.Z_boundary_nodes)
+        marked_plaquette_graph, plaquette_pairing_graph = self.marked_tanner_graph('Z', positions)
 
     ## address syndrome 
-        plaquette_matchings = nx.min_weight_matching(marked_plaquette_graph,  weight='weight')
+        plaquette_matchings = nx.min_weight_matching( plaquette_pairing_graph,  weight='weight')
 
         for match in plaquette_matchings:
-            if not ( (  match[0] in self.Z_boundary_nodes) and (match[1] in self.Z_boundary_nodes ) ):
-                path = [ node for node in nx.shortest_path( self.Z_graph, match[0], match[1] ) if type(node) == int  ]
+            if not ( (  match[0][0] == 'b' ) and (match[1][0] == 'b'  ) ):
+                path = [ node for node in nx.shortest_path( marked_plaquette_graph , match[0], match[1] ) if type(node) == int  ]
                 self.LatticeCircuit.x(path)
    
     def measure_data(self):
@@ -281,7 +339,31 @@ class SurfaceCode:
         self.LatticeCircuit.measure(ZReadAncilla[0],ZReadout[0]) 
           
 
-    
+    def nearest_boundary(self, node, label):
+        # return node closest to given node, on the tanner graph 
+        # associated to the label (which is 'X' or 'Z')
+        node_int = int(node.replace('r',''))
+         
+        if label == 'Z':
+            left = (self.rows)*math.floor(node_int/self.rows)
+            right = (self.rows)*math.ceil(node_int/self.rows) - 1
+            if abs( node_int - left ) <= abs(node_int - right):
+                peripheral = 'r' + str(left)
+            else: 
+                peripheral = 'r' + str(right) 
+                
+            return list(set(self.Z_boundary_nodes) & set(self.Z_graph.neighbors(peripheral)))[0]  
+        
+        if label == 'X':
+            top = node_int - ((self.rows+1)* math.floor( node_int/(self.rows+1) ))
+            bottom = top + (self.rows+1 )*(self.cols) 
+            if abs( node_int - top ) <= abs(node_int - bottom):
+                peripheral = 'r' + str(top) 
+            else:
+                peripheral = 'r' + str(bottom) 
+            return list(set(self.X_boundary_nodes) & set(self.X_graph.neighbors(peripheral)))[0]
+            
+            
     def get_flat_index(self, edge):
         return list(self.edges).index(edge)
     
