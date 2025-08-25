@@ -8,7 +8,7 @@ from qiskit.primitives import SamplerResult
 from qiskit.providers.basic_provider import BasicProvider
 from qiskit import transpile
 import numpy as np
-from latticecode_with_nx import *
+import sympy
 from CSSCodesGottesman import *
 from networkx.algorithms import bipartite
 import math 
@@ -117,8 +117,8 @@ class SurfaceCode:
                 L.append(label)
                 star_subgraph = self.lattice_grid.subgraph(L)
                 S = Star(label, star_subgraph)
-                stars.append(S)            
-        self.stars = dict(enumerate(stars ) )
+                stars.append( S )            
+        self.stars = dict( enumerate(stars ) )
         
         
     ######  initialize surface code on lattice  
@@ -392,3 +392,22 @@ class SurfaceCode:
                     edge = (edge[1], edge[0])       
                 star[1].qubits.append(LatticeCircuit.qubits[self.get_flat_index(edge)])                
                 
+
+
+class Plaquette:
+
+    def __init__(self, label, cycle, subgraph):
+        self.label = label
+        self.cycle = cycle
+        self.subgraph = subgraph
+        self.qubits = []
+        self.edges = subgraph.edges 
+
+
+class Star:
+
+    def __init__(self, label, star_subgraph):
+        self.label = label
+        self.subgraph = star_subgraph
+        self.edges = star_subgraph.edges 
+        self.qubits = []
