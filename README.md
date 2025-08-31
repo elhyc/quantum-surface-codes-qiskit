@@ -19,7 +19,7 @@ The basic premise of the planar surface code is similar to the idea behind the t
 
 
 <p align="center">
-<img src="./figures/lattice5x5planar.png" alt="example lattice" width="500"/>
+<img src="./figures/planar lattice 5x5.png" alt="example lattice" width="500"/>
 </p>
 
 
@@ -46,8 +46,8 @@ Once we have our parity check matrices $(H_{X}, H_{Z})$, we can define correspon
 </p> -->
 
 <p align="center">
-  <img src="./figures/X_graph (5x5).png" width="350" />
-  <img src="./figures/Z_graph (5x5).png" width="350" />
+  <img src="./figures/X graph (5x5).png" width="350" />
+  <img src="./figures/Z graph (5x5).png" width="350" />
 </p>
 
 The check nodes are labeled as strings 'r' + str(row_index) where row_index corresponds to the row index associated to the given check node. The integer valued labels correspond to the edges of the lattice. One may view a boundary node of a respective tanner graph to be a  "degenerate" star or plaquette, consisting of a single edge. This perspective is useful for the minimum-weight matching procedure required for decoding the surface code.
