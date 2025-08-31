@@ -23,8 +23,8 @@ The basic premise of the planar surface code is similar to the idea behind the t
 </p>
 
 
-The planar lattices have two kinds of boundary edges: edges that make up the "smooth boundary" and edges that make up the "rough boundary". In the example above, the edges making up the "smooth boundary" are the edges $(0,6), (6,12), (12,18), (18,24), (24,30)$;
-$(5,11), (11,17), (17,23), (23,29), (29,35)$. The edges that make up the "rough boundary" are the edges $(0,-6), (1,-5), (2,-4), (3,-3), (4,-2), (5,-1)$ ; $(35,41), (34,40), (33,39), (32,38), (31,37), (30,36)$. 
+The planar lattices have two kinds of boundary edges: edges that make up the "smooth boundary" and edges that make up the "rough boundary". In the example above, the edges making up the "smooth boundary" are the edges $(0,6), (6,12), (12,18), (18,24)$;
+$(5,11), (11,17), (17,23)$. The edges that make up the "rough boundary" are the edges $(0,-6), (1,-5), (2,-4), (3,-3), (4,-2), (5,-1)$ ; $(23,29), (22,28), (21,27), (20,26), (19,25), (18,24)$. 
 
 The qubits on the "smooth boundary" edges belong to a single plaquette (and two stars), while the qubits on the "rough boundary" edges belong to a single star (and two plaquettes).
 In the case of the toric code, each edge of the lattice belongs to two plaquettes and two stars -- therefore, a $X$ or $Z$ flip on a qubit (on any edge) will always be detected by syndrome measurements for pairs of plaquette or star operators. In the planar case with boundary, a $X$ or $Z$ flip on a qubit belonging to a boundary edge will only be detected by a syndrome measurement for a single plaquette or star in isolation.
@@ -36,7 +36,7 @@ Apart from Qiskit, the [main code](./src/KitaevSurfaceCode.py) uses [NetworkX](h
 Unlike the implementation found [here](https://github.com/elhyc/Kitaev-Toric-Code), this implementation uses more general algorithms available for CSS codes to: 1) produce logical states, 2) construct plaquette and star operators.
 
 
-First, a NetworkX lattice grid of an appropriate size is formed: we initiate a NetworkX lattice grid of size $(d + 3) \times (d+1)$ so that the appropriate rough and smooth edges for a $d \times d$ square lattice may be formed (refer to the figure above for reference). Then, the edges of the lattice are ordered, and by traversing through the lattice we may produce parity check matrices $H_{X}, H_{Z}$ for the planar surface code described by the lattice. The stars of each node define the rows for $H_{X}$ and the edges forming a cycle around a given node define the rows for $H_{Z}$. 
+First, a NetworkX lattice grid of an appropriate size is formed: we initiate a NetworkX lattice grid of size $d \times d$ with both rough and smooth boundaries (refer to the figure above for reference). Then, the edges of the lattice are ordered, and by traversing through the lattice we may produce parity check matrices $H_{X}, H_{Z}$ for the planar surface code described by the lattice. The stars of each node define the rows for $H_{X}$ and the edges forming a cycle around a given node define the rows for $H_{Z}$. 
 
 Once we have our parity check matrices $(H_{X}, H_{Z})$, we can define corresponding *Tanner graphs*: these are bipartite graphs where a "check node" is defined for each row of $H = H_{X}, H_{Z}$ and edges are formed between the check node and nodes corresponding to the edges of the lattice according to the non-zero entries of the given row in $H$. Below are examples for the $X$-type and $Z$-type Tanner graphs respectively for the $5 \times 5$ lattice: 
 
