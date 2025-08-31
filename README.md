@@ -66,5 +66,5 @@ this implementation. The plot below suggests that the threshold is around 15% (s
 
 
 <p align="center">
-  <img src="./figures/codedistance_error_rates.png" width="500" />
+  <img src="./figures/error_rates w code distances.png" width="500" />
 </p>
