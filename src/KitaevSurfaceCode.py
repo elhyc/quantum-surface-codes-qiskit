@@ -87,10 +87,12 @@ class SurfaceCode:
         
         self.rows = rows
         self.cols = cols
+        
         self.lattice_grid =  nx.convert_node_labels_to_integers(nx.grid_2d_graph(rows+3,cols+1), first_label=-(cols+1))
         self.edges = self.lattice_grid.edges()
-        self.num_of_qubits = rows*(cols+1) + (rows+1)*(cols) + 2*(cols + 1)
+        # self.num_of_qubits = rows*(cols+1) + (rows+1)*(cols) + 2*(cols + 1)
         list_edges = list(self.edges)
+        self.num_of_qubits = len(list_edges)
         
 
     ########## produce cycles/faces on lattice
@@ -345,8 +347,8 @@ class SurfaceCode:
         node_int = int(node.replace('r',''))
          
         if label == 'Z':
-            left = (self.rows)*math.floor(node_int/self.rows)
-            right = (self.rows)*math.ceil(node_int/self.rows) - 1
+            left = (self.cols)*math.floor(node_int/self.cols)
+            right = (self.cols)*math.ceil(node_int/self.cols) - 1
             if abs( node_int - left ) <= abs(node_int - right):
                 peripheral = 'r' + str(left)
             else: 
@@ -355,8 +357,8 @@ class SurfaceCode:
             return list(set(self.Z_boundary_nodes) & set(self.Z_graph.neighbors(peripheral)))[0]  
         
         if label == 'X':
-            top = node_int - ((self.rows+1)* math.floor( node_int/(self.rows+1) ))
-            bottom = top + (self.rows+1 )*(self.cols) 
+            top = node_int - ((self.cols+1)* math.floor( node_int/(self.cols+1) ))
+            bottom = top + (self.cols+1 )*(self.rows) 
             if abs( node_int - top ) <= abs(node_int - bottom):
                 peripheral = 'r' + str(top) 
             else:

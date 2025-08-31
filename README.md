@@ -62,9 +62,9 @@ This [Jupyter notebook](./src/KitaevSurfaceCode.ipynb) demonstrates some of the 
 ## Code threshold
 
 Running some preliminary local simulations gives us an estimate of the code threshold of 
-this implementation. The plot below suggests that the threshold may be around 16% (similar to the code threshold for the toric code). Recall that we are assuming an idealized depolarizing error model, where i.i.d Pauli errors are only introduced after ground state initialization.
+this implementation. The plot below suggests that the threshold is around 15% (similar to the code threshold for the toric code). Recall that we are assuming an idealized depolarizing error model, where i.i.d Pauli errors are only introduced after ground state initialization.
 
 
 <p align="center">
-  <img src="./figures/size579logerror.png" width="500" />
+  <img src="./figures/codedistance_error_rates.png" width="500" />
 </p>
